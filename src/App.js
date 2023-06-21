@@ -7,6 +7,7 @@ import Project3 from './pages/Project3';
 import Project4 from './pages/Project4';
 import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
+import { AnimatePresence } from 'framer-motion';
 
 
 
@@ -14,6 +15,7 @@ import NotFound from './pages/NotFound';
 const App = () => {
   return (
     <BrowserRouter>
+    <AnimatePresence>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/project-1" element={<Project1 />} />
@@ -23,6 +25,7 @@ const App = () => {
       <Route path="/contact" element={<Contact />} />
       <Route path="*" element={<NotFound />} />
   </Routes>
+  </AnimatePresence>
   </BrowserRouter>
 
   );
