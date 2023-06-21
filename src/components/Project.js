@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {projectsData} from '../data/projectsData';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const Project = ({projectNumber}) => {
 
@@ -10,7 +11,7 @@ const Project = ({projectNumber}) => {
     //? on déclare les states pour le cercle aléatoire 
     const[left, setLeft] = useState();
     const[top, setTop] = useState();
-    const[size, setSize] = useState();
+    const[size, setSize] = useState();    
     
     //? génére la taille du cercle aléatoirement a la création du composant
     useEffect(() => {
@@ -19,10 +20,60 @@ const Project = ({projectNumber}) => {
         setTop(Math.floor(Math.random() * 200 + 150) + "px");
         setSize("scale(" + (Math.random() + 0.7) + ")");
 
+
     }, []);
 
+    //? Définie l'animation avec framer-motion et les paramètres de l'animation 
+    const variants = {
+        initial: {
+            opacity: 0,
+            transition: { duration: 0.5 },
+            x: 200,
+        },
+        visible: {
+            opacity: 1,
+            x: 0,
+            y: 0,
+        },
+        
+
+    }
+    
+
+    //? Définie l'animation avec framer-motion et les paramètres de l'animation
+    const transition = {
+        ease: [0.03, 0.87, 0.73, 0.9],
+        duration: 0.6,
+    }
+
+    const imgAnim = {
+        initial: {
+            opacity: 0,
+            x: Math.floor(Math.random() * 350 * (Math.random() < 0.5 ? -1 : 1)),
+            y : Math.floor(Math.random() * 120 * (Math.random() < 0.5 ? -1 : 1)),
+        },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            transition: { duration: 0.5 },
+        },
+        exit: {
+            opacity: 0,
+            scale: 1.1,
+            transition: { duration: 0.5 },
+        }
+    }
+
     return (
-      <div className="project-main">
+      <motion.div 
+      className="project-main"
+      initial="initial"
+      animate="visible"
+      exit="exit"
+      transition={transition}
+      variants={variants}
+
+      >
             <div className="project-content">
                 <h1>{currentProject.title}</h1>
                 <p>{currentProject.date}</p>
@@ -33,7 +84,14 @@ const Project = ({projectNumber}) => {
                 </ul>
 
             </div>
-                <div className="img-content">
+                <motion.div 
+                className="img-content"
+                initial="initial"
+                animate="visible"
+                variants={imgAnim}
+                transition={{duration:1.2}}
+                
+                >
                     <div className="img-container hover">
                         <span>
                             <h3>{currentProject.title}</h3>
@@ -46,11 +104,13 @@ const Project = ({projectNumber}) => {
                         <span className="button">Voir le site</span>
                     </a>
                 </div>
-                </div> 
+                </motion.div> 
                 {/* //? on affiche le cercle aléatoire */}
                 <span className='random-circle' style={{left,top,transform:size}}></span>
-      </div>
+      </motion.div>
     );
+
 };
+
 
 export default Project;
